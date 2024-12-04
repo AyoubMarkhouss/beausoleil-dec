@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // uses connection pooling
+}
+
+model Users {
+  id   Int    @id @default(autoincrement())
+  name String
+  age  Int
+}
+
+model Form {
+  id               Int            @id @default(autoincrement())
+  firstName        String
+  lastName         String
+  email            String
+  phone            String
+  serviceType      String
+  startPlace       String
+  endPlace         String
+  transferDate     DateTime
+  transferHour     String
+  vehicleTypes     String
+  passengersNumber Int
+  baggage          Boolean
+  comment          String
+  extra            ExtraService[]
+}
+
+model ExtraService {
+  id     Int  @id @default(autoincrement())
+  Form   Form @relation(fields: [formId], references: [id])
+  formId Int
+
+  locationDesiredVehicleType           String?
+  locationStartDate                    DateTime?
+  locationEndDate                      DateTime?
+  locationReturnLocation               String?
+  locationGps                          Boolean?  @default(false)
+  locationbabySeat                     Boolean?  @default(false)
+  locationAdditionalInsurance          Boolean?  @default(false)
+  locationCommentsOrSpecialRequests    String?
+  dispositionCompany                   String?
+  dispositionPreferredVehicleType      String?
+  dispositionRentalDuration            String?
+  dispositionDepartureStartDate        DateTime?
+  dispositionDepartureEndDate          DateTime?
+  dispositionStartTime                 String?
+  dispositionDepartureLocation         String?
+  dispositionDestinationLocation       String?
+  dispositionDriverOptions             Boolean?
+  dispositionCommentsOrSpecialRequests String?
+}
